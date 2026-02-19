@@ -1,7 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  serverExternalPackages: [
+    "googleapis",
+    "googleapis-common",
+    "gaxios",
+    "node-fetch",
+    "fetch-blob",
+    "nodemailer",
+  ],
 };
 
 export default nextConfig;

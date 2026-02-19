@@ -29,6 +29,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+next_output.log
+"package-lock 2.json"
+package-lock\ 2.json
 
 # env files (can opt-in for committing if needed)
 .env*

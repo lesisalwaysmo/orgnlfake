@@ -1,0 +1,4 @@
+-- Migration: Add bio and website to profiles
+ALTER TABLE profiles 
+ADD COLUMN IF NOT EXISTS bio TEXT,
+ADD COLUMN IF NOT EXISTS website TEXT;
