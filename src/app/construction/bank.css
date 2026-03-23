@@ -344,3 +344,45 @@ body:has(.bank-page) > main {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+/* ===============================================
+   Image Trail Container Styles
+   =============================================== */
+
+.trail-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 2; /* Sits above background, below the glassmorphic card */
+  pointer-events: none; /* Allows clicks to go through the images */
+}
+
+.trail-img {
+  position: absolute;
+  width: 175px;
+  height: 175px;
+  pointer-events: none;
+}
+
+.mask-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  will-change: clip-path;
+}
+
+.image-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+}

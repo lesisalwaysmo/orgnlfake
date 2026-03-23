@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import TrailContainer from '@/components/TrailContainer';
 import './bank.css';
 
 export default function BankClient() {
@@ -21,6 +22,9 @@ export default function BankClient() {
 
     return (
         <div className="bank-page no-reveal">
+            {/* Image Trail Effect */}
+            <TrailContainer />
+
             {/* Background Animations */}
             <div className="bg-grid"></div>
             <div className="bg-glow"></div>
