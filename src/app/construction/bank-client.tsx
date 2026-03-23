@@ -20,7 +20,7 @@ export default function BankClient() {
     };
 
     return (
-        <div className="bank-page">
+        <div className="bank-page no-reveal">
             {/* Background Animations */}
             <div className="bg-grid"></div>
             <div className="bg-glow"></div>
