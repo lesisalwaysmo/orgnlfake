@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { ReactLenis } from '@studio-freight/react-lenis';
 import { portfolioData, PortfolioProject } from '@/data/portfolio';
 
@@ -114,6 +115,7 @@ export default function AnimatedPortfolioGrid() {
                                     key={project.id}
                                     project={project}
                                     panDirection={(rowIndex + colIndex) % 2 === 0 ? 'left' : 'right'}
+                                    isPriority={rowIndex < 2}
                                 />
                             ))}
                         </div>
@@ -148,19 +150,21 @@ export default function AnimatedPortfolioGrid() {
 function ProjectCard({
     project,
     panDirection,
+    isPriority = false,
 }: {
     project: PortfolioProject;
     panDirection: 'left' | 'right';
+    isPriority?: boolean;
 }) {
     const [imgError, setImgError] = useState(false);
-    const mediaRef = useRef<HTMLImageElement | HTMLVideoElement>(null);
+    const animRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const animationRef = useRef<number>(0);
     const positionRef = useRef(0);
     const [isHovered, setIsHovered] = useState(false);
 
     useEffect(() => {
-        const media = mediaRef.current;
+        const media = animRef.current;
         const container = containerRef.current;
         if (!media || !container) return;
 
@@ -209,34 +213,38 @@ function ProjectCard({
                 className="relative w-full overflow-hidden bg-black/10 rounded-lg flex items-center justify-center"
                 style={{ aspectRatio: '7 / 5' }}
             >
-                {project.type === 'video' ? (
-                    <video
-                        ref={mediaRef as React.RefObject<HTMLVideoElement>}
-                        src={project.src}
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        className="absolute w-[130%] h-[130%] object-cover transition-transform duration-[1500ms] ease-out"
-                        style={{ transform: 'scale(1.3)' }}
-                    />
-                ) : imgError ? (
-                    <div className="w-full h-full flex items-center justify-center bg-black/5">
-                        <span className="text-black/30 text-xs uppercase tracking-widest">
-                            {project.title}
-                        </span>
-                    </div>
-                ) : (
-                    /* eslint-disable-next-line @next/next/no-img-element */
-                    <img
-                        ref={mediaRef as React.RefObject<HTMLImageElement>}
-                        src={project.src}
-                        alt={project.title}
-                        className="absolute w-[130%] h-[130%] object-cover transition-transform duration-[1500ms] ease-out"
-                        style={{ transform: 'scale(1.3)' }}
-                        onError={() => setImgError(true)}
-                    />
-                )}
+                <div 
+                    ref={animRef}
+                    className="absolute w-[130%] h-[130%] transition-transform duration-[1500ms] ease-out pointer-events-none"
+                    style={{ transform: 'scale(1.3)' }}
+                >
+                    {project.type === 'video' ? (
+                        <video
+                            src={project.src}
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            className="absolute inset-0 w-full h-full object-cover"
+                        />
+                    ) : imgError ? (
+                        <div className="w-full h-full flex items-center justify-center bg-black/5">
+                            <span className="text-black/30 text-xs uppercase tracking-widest">
+                                {project.title}
+                            </span>
+                        </div>
+                    ) : (
+                        <Image
+                            src={project.src}
+                            alt={project.title}
+                            fill
+                            sizes="(max-width: 768px) 50vw, 33vw"
+                            className="object-cover"
+                            priority={isPriority}
+                            onError={() => setImgError(true)}
+                        />
+                    )}
+                </div>
             </div>
 
             {/* Caption */}
