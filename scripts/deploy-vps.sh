@@ -59,7 +59,7 @@ else
     cd "$APP_DIR"
 fi
 
-npm ci
+npm ci --legacy-peer-deps
 
 # Create production .env.local
 cat > .env.local << 'ENVEOF'
@@ -155,5 +155,5 @@ echo "  3. Test auto-renewal:"
 echo "     certbot renew --dry-run"
 echo ""
 echo "  To update the app in the future, run:"
-echo "     cd $APP_DIR && git pull && npm ci && npm run build && pm2 restart flowing-app"
+echo "     cd $APP_DIR && git pull && npm ci --legacy-peer-deps && npm run build && pm2 restart flowing-app"
 echo ""
