@@ -88,7 +88,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="banner-paragraph reveal" ref={addToRefs}>
+      <section className="banner-paragraph reveal no-reveal" ref={addToRefs}>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -102,7 +102,7 @@ export default function Home() {
       {/* Photon Scroll Animation Section */}
       <PhotonScrollEffect />
 
-      <section className="manifesto-paragraph reveal" ref={addToRefs}>
+      <section className="manifesto-paragraph reveal no-reveal" ref={addToRefs}>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -113,14 +113,15 @@ export default function Home() {
         </motion.p>
       </section>
 
-      <section id="about" className="reveal" ref={addToRefs}>
+      <section id="about" className="reveal no-reveal" ref={addToRefs}>
         <div className="about-img" style={{ position: 'relative', overflow: 'hidden' }}>
           <Image 
             src="/landing/orgnlfake__1582784388_2252881193439860909_4183375751.jpg" 
             alt="Model Profile" 
-            fill 
+            width={800}
+            height={1000}
             sizes="(max-width: 768px) 100vw, 50vw"
-            style={{ objectFit: 'cover' }}
+            style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
           />
         </div>
         <motion.div
@@ -178,8 +179,7 @@ export default function Home() {
         </motion.div>
       </section>
 
-
-      <section id="portfolio-link" className="reveal" ref={addToRefs}>
+      <section id="portfolio-link" className="reveal no-reveal" ref={addToRefs}>
         <div className="flex flex-col items-center justify-center py-24 px-4 text-center border-t border-b border-[#222] my-12 bg-[#0a0a0a]">
           <h2 className="section-title mb-6">The Collection</h2>
           <p className="text-muted-foreground text-lg mb-10 max-w-2xl">
