@@ -46,8 +46,8 @@ export default function BankClient() {
 
                 {/* Main Hero Typography */}
                 <h1 className="hero-title">
-                    The Future of<br/>
-                    <span className="gradient-text">Wealth Management</span>
+                    Website<br/>
+                    <span className="gradient-text">Coming Soon</span>
                 </h1>
 
                 <p className="hero-subtitle">
