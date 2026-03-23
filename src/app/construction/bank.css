@@ -10,6 +10,34 @@
   --bank-border: rgba(51, 65, 85, 0.4);
 }
 
+/*
+ * Override root layout elements when construction page is active.
+ * The root layout always renders MainNav and GlobalReveal,
+ * so we hide them entirely from this page's scope.
+ */
+
+/* Hide the site navigation */
+.bank-page ~ * { display: none; }
+body:has(.bank-page) > nav,
+body:has(.bank-page) > header,
+body:has(.bank-page) [class*="main-nav"],
+body:has(.bank-page) [class*="MainNav"] {
+  display: none !important;
+}
+
+/* Remove the pt-16 (64px) top padding from the root <main> */
+body:has(.bank-page) > main {
+  padding-top: 0 !important;
+}
+
+/* Force all text in the bank page to be visible (counteract GlobalReveal clip-path) */
+.bank-page,
+.bank-page * {
+  clip-path: none !important;
+  -webkit-clip-path: none !important;
+  visibility: visible !important;
+}
+
 .bank-page {
   position: relative;
   width: 100vw;
