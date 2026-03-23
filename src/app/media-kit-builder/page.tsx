@@ -5,7 +5,7 @@ import { BuilderTabs } from "@/components/dashboard/builder-tabs";
 import { SocialPlatform } from "@/lib/config/social-platforms";
 
 export default async function MediaKitBuilderPage() {
-    const supabase = await createClient();
+    const supabase = (await createClient()) as any;
     const { data: { user } } = await supabase.auth.getUser();
 
     // Fetch real connected accounts
@@ -28,7 +28,7 @@ export default async function MediaKitBuilderPage() {
             .eq("user_id", user.id);
 
         if (accounts) {
-            connectedPlatforms = accounts.map(a => a.platform as SocialPlatform);
+            connectedPlatforms = accounts.map((a: any) => a.platform as SocialPlatform);
         }
 
         const { data: profile } = await supabase

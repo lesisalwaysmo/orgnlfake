@@ -2,81 +2,9 @@
 
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import PhotonScrollEffect from "@/components/PhotonScrollEffect";
 import "./landing.css";
-
-const categoryImages = {
-  fashion: [
-    '/landing/Fashion/1.png', '/landing/Fashion/11.jpg', '/landing/Fashion/12.jpg', '/landing/Fashion/6.jpg',
-    '/landing/Fashion/Generated Image September 09, 2025 - 10_14PM.png', '/landing/Fashion/Generated Image September 09, 2025 - 9_53PM.png',
-    '/landing/Fashion/_MG_0065.jpg', '/landing/Fashion/_MG_0076.jpg', '/landing/Fashion/_MG_0085 3.jpg',
-    '/landing/Fashion/_MG_0246.jpg', '/landing/Fashion/_MG_0277.jpg', '/landing/Fashion/_MG_0735.jpg',
-    '/landing/Fashion/ggggggggtgt.png', '/landing/Fashion/grddtcg.jpg', '/landing/Fashion/gtggtytfydt.jpg', '/landing/Fashion/jsuhfgsu.jpg',
-    '/landing/Fashion/orgnlfake__1556513320_2032503501079625300_4183375751.jpg',
-    '/landing/Fashion/orgnlfake__1556513320_2032503501087915183_4183375751.jpg',
-    '/landing/Fashion/orgnlfake__1574136420_2180336779075770680_4183375751.jpg',
-    '/landing/Fashion/orgnlfake__1583303502_2257235838367082905_4183375751.jpg',
-    '/landing/Fashion/orgnlfake__1609993524_2481127968532090401_4183375751.jpg',
-    '/landing/Fashion/orgnlfake__1626670676_2621026062966327085_4183375751.jpg',
-    '/landing/Fashion/orgnlfake__1628225906_2634072276989489657_4183375751.jpg',
-    '/landing/Fashion/orgnlfake__1632804469_2672480049808409728_4183375751.jpg',
-    '/landing/Fashion/orgnlfake__1682571746_3089958225432590158_4183375751.jpg',
-    '/landing/Fashion/orgnlfake__1682571746_3089958225583576446_4183375751.jpg',
-    '/landing/Fashion/orgnlfake__1714929363_3361393591316894093_4183375751.webp',
-    '/landing/Fashion/orgnlfake__1714929363_3361393591325294208_4183375751.webp',
-    '/landing/Fashion/orgnlfake__1715061628_3361398108464821222_4183375751.webp',
-    '/landing/Fashion/orgnlfake__1715061628_3361398108481531912_4183375751.webp',
-    '/landing/Fashion/orgnlfake__1739033046_3563589939141926044_4183375751.webp',
-    '/landing/Fashion/orgnlfake__1754570550_3693927968162571769_4183375751.jpg',
-    '/landing/Fashion/orgnlfake__1756828805_3712408242753148550_4183375751.webp',
-    '/landing/Fashion/orgnlfake__1756828805_3712408242761538995_4183375751.webp',
-    '/landing/Fashion/orgnlfake__1757500272_3718504255729820216_4183375751.jpg',
-    '/landing/Fashion/uhgajshgc.jpg', '/landing/Fashion/uyaguyga.jpg', '/landing/Fashion/yfdhffchct.jpg', '/landing/Fashion/yhfdugt.jpg'
-  ],
-  boudoir: [
-    '/landing/Boudoir/IMG-20230326-WA0016.jpg', '/landing/Boudoir/IMG-20230326-WA0017.jpg',
-    '/landing/Boudoir/IMG-20230814-WA0032.jpg', '/landing/Boudoir/IMG_0440 colorized.jpg',
-    '/landing/Boudoir/htsyssf.jpg', '/landing/Boudoir/iuyhgfdt.jpg', '/landing/Boudoir/jujnbghytfk.jpg',
-    '/landing/Boudoir/jukoiut.jpg', '/landing/Boudoir/juyyhgtrfdews.jpg',
-    '/landing/Boudoir/orgnlfake__1737619218_3551684337159388122_4183375751.webp',
-    '/landing/Boudoir/orgnlfake__1737619218_3551684337260161126_4183375751.webp',
-    '/landing/Boudoir/orgnlfake__1756921600_3713650006348904412_4183375751.jpg',
-    '/landing/Boudoir/reduyigsg.jpg', '/landing/Boudoir/yfytf.jpg', '/landing/Boudoir/ytgfree.jpg'
-  ],
-  active: [
-    '/landing/Active/1.jpg', '/landing/Active/4.jpg'
-  ],
-  skincare: [
-    '/landing/beauty/_MG_0067.jpg', '/landing/beauty/orgnlfake__1755259229_3699705145290302972_4183375751.webp'
-  ],
-  lingerie: [
-    '/landing/Lingerie/_MG_0125.jpg', '/landing/Lingerie/_MG_0201.jpg', '/landing/Lingerie/_MG_0228.jpg',
-    '/landing/Lingerie/hfdgrs.jpg', '/landing/Lingerie/hjgafueyffbc.jpg',
-    '/landing/Lingerie/orgnlfake__1617164587_2541283206148515199_4183375751.jpg',
-    '/landing/Lingerie/orgnlfake__1757347211_3717220285456862054_4183375751.jpg'
-  ],
-  beauty: [
-    '/landing/beauty/_MG_0067.jpg', '/landing/beauty/orgnlfake__1755259229_3699705145290302972_4183375751.webp'
-  ],
-  portrait: [
-    '/landing/CREATIVE POTRAIT/_MG_0020 2.jpg', '/landing/CREATIVE POTRAIT/_MG_0027.jpg',
-    '/landing/CREATIVE POTRAIT/_MG_0574.jpg', '/landing/CREATIVE POTRAIT/orgnlfake__1699264943_3229990908790655262_4183375751.webp',
-    '/landing/CREATIVE POTRAIT/orgnlfake__1699264943_3229990908807405092_4183375751.webp',
-    '/landing/CREATIVE POTRAIT/orgnlfake__1754985609_3697409823724286995_4183375751.webp',
-    '/landing/PORTRAITS/orgnlfake__1756657576_3711435212652554445_4183375751.webp',
-    '/landing/PORTRAITS/orgnlfake__1756657576_3711435212660967385_4183375751.webp',
-    '/landing/PORTRAITS/orgnlfake__1756657576_3711435212669380630_4183375751.webp'
-  ]
-};
-
-const categories = [
-  { id: 'fashion', title: 'High Fashion' },
-  { id: 'boudoir', title: 'Boudoir' },
-  { id: 'active', title: 'Active Wear' },
-  { id: 'skincare', title: 'Skin Care' },
-  { id: 'lingerie', title: 'Lingerie' },
-  { id: 'beauty', title: 'Beauty' },
-  { id: 'portrait', title: 'Creative Portrait' }
-];
 
 const animationImages = [
   '/landing/ANIMATION/6.jpg',
@@ -94,7 +22,6 @@ const animationImages = [
 ];
 
 export default function Home() {
-  const [activeFilter, setActiveFilter] = useState("fashion");
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const revealRefs = useRef<HTMLElement[]>([]);
 
@@ -154,16 +81,78 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="banner-paragraph reveal" ref={addToRefs}>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          In an industry often defined by rigid expectations and artificial standards, <strong>Orgnlfake</strong> was born to serve as a sanctuary for the authentic. Based in the vibrant creative landscape of South Africa, we are more than an agency; we are a <strong>Pro-Choice Collective</strong>. We believe that every individual has the right to navigate their career without surrendering their autonomy. To us, &apos;Original&apos; isn&apos;t just a name—it&apos;s a commitment to the unfiltered, culturally diverse, and beautifully complex reality of Mzansi.
+        </motion.p>
+      </section>
+
+      {/* Photon Scroll Animation Section */}
+      <PhotonScrollEffect />
+
+      <section className="manifesto-paragraph reveal" ref={addToRefs}>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          We stand firmly against the &apos;fake&apos; hierarchies of the past. Here, there are no bosses and no subordinates. We operate as a horizontal partnership, where the vision of the brand and the soul of the creator meet as equals. We are a house built on the belief that your personal life, your choices, and your private journey are yours alone; they do not define your talent, but they do fuel your unique creative fire.
+        </motion.p>
+      </section>
+
       <section id="about" className="reveal" ref={addToRefs}>
         <div className="about-img">
           <img src="/landing/orgnlfake__1582784388_2252881193439860909_4183375751.jpg" alt="Model Profile" />
         </div>
-        <div className="about-text">
-          <h2>About OrgnlFake</h2>
-          <p>OrgnlFake represents the duality of the modern muse. We blur the lines between the organic self and the curated persona.</p>
-          <p>Specializing in high-impact visual storytelling, our work spans across continents and genres. From the grit of urban streetwear to the delicate intimacy of boudoir, we create moments that provoke and inspire.</p>
-          <br />
-          <div style={{ display: "flex", gap: "30px" }}>
+        <motion.div
+          className="about-text"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: { opacity: 1, transition: { staggerChildren: 0.2 } }
+          }}
+        >
+          <motion.h2
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+            }}
+          >
+            The Orgnlfake Manifesto
+          </motion.h2>
+
+          <motion.p
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+            }}
+          >
+            We are a home for the pioneers and the pupils alike. Orgnlfake serves as a creative incubator where the next generation of South African icons comes to find their footing. Many of the women on our board started right here—learning how to command a room, how to pose with intention, how to navigate social interactions, and how to build a professional brand from the ground up.
+          </motion.p>
+          <motion.p
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+            }}
+            style={{ marginBottom: "30px" }}
+          >
+            We aren't just looking for 'finished products'; we are looking for people ready to learn, evolve, and create. By fostering a safe space where cultural differences are celebrated and empowerment is the baseline, we are rewriting the script. While our current focus is on the radical empowerment of women, we are an ever-evolving house, soon expanding our partnership model to men who believe in a world where creativity is a shared currency and respect is non-negotiable.
+          </motion.p>
+          <motion.div
+            style={{ display: "flex", gap: "30px" }}
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+            }}
+          >
             <div>
               <h4 style={{ color: "var(--accent)" }}>Loc</h4>
               <span>JHB / Klerksdorp / Pretoria</span>
@@ -172,63 +161,23 @@ export default function Home() {
               <h4 style={{ color: "var(--accent)" }}>Exp</h4>
               <span>8 Years</span>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
-      <section id="portfolio">
-        <div className="section-header reveal" ref={addToRefs}>
-          <h2 className="section-title">The Collection</h2>
-          <p style={{ color: "var(--text-muted)" }}>Select a category to filter the archives.</p>
-        </div>
 
-        <div className="filter-container reveal" ref={addToRefs}>
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              className={`filter-btn ${activeFilter === cat.id ? "active" : ""}`}
-              onMouseEnter={() => setActiveFilter(cat.id)}
-            >
-              {cat.title}
-            </button>
-          ))}
-        </div>
-
-        <div className="gallery-grid" id="gallery-grid">
-          {categories.map((cat) => (
-            activeFilter === cat.id && categoryImages[cat.id as keyof typeof categoryImages].map((imgPath, i) => (
-              <div key={`${cat.id}-${i}`} className="gallery-item reveal active" data-category={cat.id}>
-                <img src={imgPath} alt={cat.title} loading="lazy" />
-                <div className="overlay">
-                  <span className="cat-label">{cat.title}</span>
-                  <div className="img-title">Concept {i + 1}</div>
-                </div>
-              </div>
-            ))
-          ))}
-        </div>
-      </section>
-
-      <section id="media-kits" className="reveal" ref={addToRefs}>
-        <div className="section-header">
-          <h2 className="section-title">Media & Press</h2>
-        </div>
-        <div className="kits-grid">
-          <div className="kit-card">
-            <h3>Agency Book</h3>
-            <p style={{ color: "#666" }}>PDF | 12.4MB</p>
-            <a href="#" className="download-btn">Download</a>
-          </div>
-          <div className="kit-card">
-            <h3>Social Statistics</h3>
-            <p style={{ color: "#666" }}>PDF | 2.1MB</p>
-            <a href="#" className="download-btn">Download</a>
-          </div>
-          <div className="kit-card">
-            <h3>Raw Digitals</h3>
-            <p style={{ color: "#666" }}>ZIP | 45MB</p>
-            <a href="#" className="download-btn">Download</a>
-          </div>
+      <section id="portfolio-link" className="reveal" ref={addToRefs}>
+        <div className="flex flex-col items-center justify-center py-24 px-4 text-center border-t border-b border-[#222] my-12 bg-[#0a0a0a]">
+          <h2 className="section-title mb-6">The Collection</h2>
+          <p className="text-muted-foreground text-lg mb-10 max-w-2xl">
+            Explore our curated portfolio of High Fashion, Boudoir, Active Wear, and Creative Portraits shot by our agency.
+          </p>
+          <a
+            href="/production"
+            className="inline-block border border-white/30 px-10 py-4 text-sm uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300"
+          >
+            View Production Portfolio
+          </a>
         </div>
       </section>
 

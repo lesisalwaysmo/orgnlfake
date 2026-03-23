@@ -42,3 +42,10 @@ package-lock\ 2.json
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# python venv
+.venv_insta/
+
+# test files
+test-dns.js
+test_ig_pfp.py

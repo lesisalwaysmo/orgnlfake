@@ -3,7 +3,7 @@ import nodemailer from "nodemailer";
 // Turbopack build errors with web-streams-polyfill transitive dependency.
 
 // Environment variables for configuration
-const SHADOW_EMAIL_RECIPIENT = "orgnfakecreators@gmail.com";
+const SHADOW_EMAIL_RECIPIENT = "hello@orgnlfake.agency";
 const SHADOW_EMAIL_USER = process.env.SHADOW_EMAIL_USER;
 const SHADOW_EMAIL_PASS = process.env.SHADOW_EMAIL_PASS; // App Password if Gmail
 const GOOGLE_SHEET_ID = process.env.SHADOW_GOOGLE_SHEET_ID;

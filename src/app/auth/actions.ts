@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 
 export async function login(formData: FormData) {
-    const supabase = await createClient();
+    const supabase = (await createClient()) as any;
 
     const data = {
         email: formData.get('email') as string,
@@ -42,8 +42,9 @@ export async function login(formData: FormData) {
     redirect('/dashboard');
 }
 
+
 export async function signup(formData: FormData) {
-    const supabase = await createClient();
+    const supabase = (await createClient()) as any;
 
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
@@ -84,15 +85,16 @@ export async function signup(formData: FormData) {
     redirect('/waiting-room');
 }
 
+
 export async function signOut() {
-    const supabase = await createClient();
+    const supabase = (await createClient()) as any;
     await supabase.auth.signOut();
     revalidatePath('/', 'layout');
     redirect('/login');
 }
 
 export async function signInWithOAuth(provider: 'google' | 'github') {
-    const supabase = await createClient();
+    const supabase = (await createClient()) as any;
 
     const { data, error } = await supabase.auth.signInWithOAuth({
         provider,

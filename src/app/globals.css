@@ -186,3 +186,29 @@
 .glow-blue-shadow {
   box-shadow: 0 0 20px rgba(37, 99, 235, 0.5), 0 0 40px rgba(6, 182, 212, 0.3);
 }
+
+
+/* ========================================
+   GSAP Global Reveal Styles
+   ======================================== */
+
+/* The mask wrapper: clips the child text line */
+.gsap-reveal-mask {
+  overflow: hidden;
+  display: block;
+}
+
+/* The child line: starts off-screen (below the mask) to prevent FOUC.
+   GSAP animates this from y:100% → y:0 */
+.lineChild {
+  transform: translateY(100%);
+  will-change: transform;
+}
+
+h1,
+h2,
+h3,
+p {
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}

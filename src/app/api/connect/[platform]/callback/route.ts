@@ -70,7 +70,7 @@ export async function GET(
         }
 
         // 3. Authentication Check
-        const supabase = await createClient();
+        const supabase = (await createClient()) as any;
         const { data: { user } } = await supabase.auth.getUser();
 
         if (!user) {

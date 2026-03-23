@@ -18,7 +18,7 @@ interface RateCardDisplayProps {
 const normalizeRateCard = (data: any): RateCardItem[] => {
     if (!data) return [];
     if (Array.isArray(data)) {
-        return data.map(item => ({
+        return data.map((item: any) => ({
             service: item.service || item.title || "Service",
             rate: item.rate || item.price || "Contact for pricing",
             description: item.description || ""

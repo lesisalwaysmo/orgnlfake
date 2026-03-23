@@ -9,7 +9,7 @@ export async function approveUser(userId: string) {
         throw new Error("Unauthorized");
     }
 
-    const supabase = await createClient();
+    const supabase = (await createClient()) as any;
 
     // 2. Update status to 'active'
     const { error } = await supabase
@@ -31,7 +31,7 @@ export async function rejectUser(userId: string) {
         throw new Error("Unauthorized");
     }
 
-    const supabase = await createClient();
+    const supabase = (await createClient()) as any;
 
     const { error } = await supabase
         .from("profiles")

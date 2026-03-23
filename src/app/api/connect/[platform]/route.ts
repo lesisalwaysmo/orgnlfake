@@ -24,7 +24,7 @@ export async function GET(
     }
 
     // 2. Security Check (Must be logged in)
-    const supabase = await createClient();
+    const supabase = (await createClient()) as any;
     const { data: { user } } = await supabase.auth.getUser();
 
     if (!user) {

@@ -93,8 +93,10 @@
 
 /* --- ANIMATION UTILS --- */
 .reveal {
-    opacity: 0;
-    transform: translateY(40px);
+    opacity: 1;
+    /* Was 0, changed for debugging blank page */
+    transform: translateY(0);
+    /* Was 40px */
     transition: all 1s ease-out;
 }
 
@@ -172,6 +174,36 @@
     text-transform: uppercase;
     color: var(--text-muted);
     margin-bottom: 40px;
+}
+
+/* --- BANNER PARAGRAPH --- */
+.banner-paragraph {
+    padding: 60px 50px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.banner-paragraph p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+/* --- MANIFESTO PARAGRAPH --- */
+.manifesto-paragraph {
+    padding: 80px 50px;
+    max-width: 100%;
+    text-align: center;
+    background-color: #ffffff;
+}
+
+.manifesto-paragraph p {
+    color: #1a1a1a;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 /* --- PORTFOLIO & FILTERS --- */

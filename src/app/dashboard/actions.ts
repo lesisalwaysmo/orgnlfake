@@ -7,7 +7,7 @@ import { generateMockStats } from "@/lib/mock-data";
 import { revalidatePath } from "next/cache";
 
 export async function refreshAnalytics() {
-    const supabase = await createClient();
+    const supabase = (await createClient()) as any;
     const { data: { user } } = await supabase.auth.getUser();
 
     if (!user) {
@@ -20,7 +20,7 @@ export async function refreshAnalytics() {
         .select("platform, access_token")
         .eq("user_id", user.id);
 
-    const connectedPlatforms = new Set(accounts?.map(a => a.platform));
+    const connectedPlatforms = new Set(accounts?.map((a: any) => a.platform));
     const newStats: Record<string, any> = {};
 
     // 2. Iterate through all supported platforms
@@ -76,7 +76,7 @@ export async function refreshAnalytics() {
 }
 
 export async function disconnectPlatform(platform: string) {
-    const supabase = await createClient();
+    const supabase = (await createClient()) as any;
     const { data: { user } } = await supabase.auth.getUser();
 
     if (!user) {
@@ -98,7 +98,7 @@ export async function disconnectPlatform(platform: string) {
 }
 
 export async function updateProfile(formData: FormData) {
-    const supabase = await createClient();
+    const supabase = (await createClient()) as any;
     const { data: { user } } = await supabase.auth.getUser();
 
     if (!user) {

@@ -1,6 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { ProfileHeader } from "@/components/profile/profile-header";
 import { RateCardDisplay } from "@/components/profile/rate-card-display";
+import { InstagramAnalytics } from "@/components/profile/instagram-analytics";
+import { generateAnalyticsData } from "@/lib/generate-analytics";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -23,10 +25,79 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
     const { username } = await params;
     const decodedUsername = decodeURIComponent(username);
 
-    const supabase = await createClient();
+    const supabase = (await createClient()) as any;
 
-    // Fetch profile
-    // Note: We're selecting fields assuming they match our DB schema
+    // Mock data fallback (matches talent page)
+    const mockProfiles: Record<string, any> = {
+        "gorg_fox.rsa": {
+            username: "gorg_fox.rsa",
+            social_stats: { followers: 37000, engagement_rate: "6.2%", total_reach: 55000 },
+            rate_card: [],
+        },
+        "momobabes21": {
+            username: "momobabes21",
+            social_stats: { followers: 64000, engagement_rate: "8.1%", total_reach: 95000 },
+            rate_card: [],
+        },
+        "lion.paballo": {
+            username: "lion.paballo",
+            social_stats: { followers: 89000, engagement_rate: "5.4%", total_reach: 135000 },
+            rate_card: [],
+        },
+        "barbiie.stallion": {
+            username: "barbiie.stallion",
+            social_stats: { followers: 323000, engagement_rate: "4.8%", total_reach: 500000 },
+            rate_card: [],
+        },
+        "boity_tlhasi": {
+            username: "boity_tlhasi",
+            social_stats: { followers: 2709, engagement_rate: "8.5%", total_reach: 4100 },
+            rate_card: [],
+        },
+        "koketso_.m_": {
+            username: "koketso_.m_",
+            social_stats: { followers: 15000, engagement_rate: "6.2%", total_reach: 22000 },
+            rate_card: [],
+        },
+        "zeloew": {
+            username: "zeloew",
+            social_stats: { followers: 9895, engagement_rate: "7.1%", total_reach: 14500 },
+            rate_card: [],
+        },
+        "luciazizipho": {
+            username: "luciazizipho",
+            social_stats: { followers: 17000, engagement_rate: "5.8%", total_reach: 25000 },
+            rate_card: [],
+        },
+        "thandeka_palesa": {
+            username: "thandeka_palesa",
+            social_stats: { followers: 57000, engagement_rate: "4.5%", total_reach: 82000 },
+            rate_card: [],
+        },
+        "taunyane_tumisang": {
+            username: "taunyane_tumisang",
+            social_stats: { followers: 72000, engagement_rate: "4.2%", total_reach: 105000 },
+            rate_card: [],
+        },
+        "_booysen": {
+            username: "_booysen",
+            social_stats: { followers: 12500, engagement_rate: "6.5%", total_reach: 18000 },
+            rate_card: [],
+        },
+        "__bellaswrld": {
+            username: "__bellaswrld",
+            social_stats: { followers: 24000, engagement_rate: "5.8%", total_reach: 36000 },
+            rate_card: [],
+        },
+        "they_adore_tshego": {
+            username: "they_adore_tshego",
+            social_stats: { followers: 41000, engagement_rate: "7.2%", total_reach: 62000 },
+            rate_card: [],
+        },
+    };
+
+    // Fetch profile from Supabase, fall back to mock data
+    let profileData: any;
     const { data: profile, error } = await supabase
         .from("profiles")
         .select("*")
@@ -34,22 +105,47 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
         .single();
 
     if (error || !profile) {
-        console.error(`Profile not found for username: ${decodedUsername}`, error);
-        notFound();
+        console.warn(`Supabase fetch failed for ${decodedUsername}, trying mock data...`, error);
+        const mockProfile = mockProfiles[decodedUsername];
+        if (!mockProfile) {
+            notFound();
+        }
+        profileData = mockProfile;
+    } else {
+        profileData = profile;
     }
 
     // Cast JSONB fields to appropriate types
-    // This assumes the shape matches our components' expectations
-    const socialStats: any = profile.social_stats || {};
-    const rateCard: any = profile.rate_card || [];
+    const socialStats: any = profileData.social_stats || {};
+    const rateCard: any = profileData.rate_card || [];
 
-    // TODO: In a real app, we might also fetch the avatar URL if it's stored separately or constructed
-    // For now we assume 'avatar_url' might be in the profile or we use a placeholder logic
-    // The schema didn't explicitly show avatar_url in the migration I saw, so I'll check if it exists or use a default.
-    // Looking at migration: id, username, status, social_stats, rate_card, media_assets. 
-    // There is NO avatar_url column in the snippet I saw. I will assume it might be in social_stats or just missing.
-    // I will use a placeholder or derived value if needed.
-    const avatarUrl = null; // Update this if we add an avatar column later
+    const mockAvatars: Record<string, string> = {
+        "gorg_fox.rsa": "/images/profiles/gorg_fox.rsa.jpg",
+        "momobabes21": "/images/profiles/momobabes21.jpg",
+        "boity_tlhasi": "/images/profiles/boity_tlhasi.jpg",
+        "koketso_.m_": "/images/profiles/koketso_.m_.jpg",
+        "zeloew": "/images/profiles/zeloew.jpg",
+        "luciazizipho": "/images/profiles/luciazizipho.jpg",
+        "thandeka_palesa": "/images/profiles/thandeka_palesa.jpg",
+        "taunyane_tumisang": "/images/profiles/taunyane_tumisang.jpg",
+        "lion.paballo": "/media/photos/lion_paballo.jpg",
+        "barbiie.stallion": "/media/photos/barbiie_stallion.jpg",
+        "_booysen": "/Profile photos/@_booysen.jpg",
+        "__bellaswrld": "/Profile photos/@__bellaswrld.jpg",
+        "they_adore_tshego": "/Profile photos/@they_adore_tshego.jpg",
+    };
+
+    const avatarUrl = profileData.avatar_url || mockAvatars[decodedUsername] || null;
+
+    // Generate estimated Instagram analytics from the creator's social stats
+    const analyticsData = generateAnalyticsData(
+        {
+            followers: socialStats.followers,
+            engagement_rate: socialStats.engagement_rate,
+            total_reach: socialStats.total_reach,
+        },
+        decodedUsername
+    );
 
     return (
         <div className="min-h-screen pb-20">
@@ -60,11 +156,8 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
 
                 <div className="container mx-auto px-4 relative z-10">
                     <ProfileHeader
-                        username={profile.username || decodedUsername}
-                        bio={null} // Schema doesn't have explicit 'bio' column in top level, maybe in social_stats? Migration showed only those columns.
-                        // Wait, migration: username, status, social_stats, rate_card, media_assets.
-                        // I'll check if 'bio' is often stored in jsonb or if I missed a column.
-                        // For now, I'll pass null or mock it if needed.
+                        username={profileData.username || decodedUsername}
+                        bio={null}
                         stats={{
                             followers: socialStats.followers,
                             engagement_rate: socialStats.engagement_rate,
@@ -75,9 +168,15 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
                     />
 
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        {/* Main Content: Rate Card */}
+                        {/* Main Content: Rate Card + Analytics */}
                         <div className="lg:col-span-2 space-y-8">
                             <RateCardDisplay rateCard={rateCard} />
+
+                            {/* Instagram Analytics Graph */}
+                            <InstagramAnalytics
+                                analytics={analyticsData}
+                                username={decodedUsername}
+                            />
                         </div>
 
                         {/* Sidebar / Actions */}
@@ -85,7 +184,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
                             <div className="p-6 rounded-xl border border-white/10 bg-black/20 backdrop-blur-sm sticky top-24">
                                 <h3 className="text-lg font-medium text-white mb-4">Interested in working with me?</h3>
                                 <Link
-                                    href={`/${decodedUsername}/portfolio`} // Assuming this route or section
+                                    href={`/${decodedUsername}/portfolio`}
                                     className="group relative flex items-center justify-center w-full py-4 px-6 bg-white text-black font-bold uppercase tracking-wide rounded-lg overflow-hidden transition-all hover:scale-[1.02] active:scale-[0.98]"
                                 >
                                     <span className="relative z-10 flex items-center gap-2">

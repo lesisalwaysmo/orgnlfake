@@ -10,7 +10,7 @@ import { formatDistanceToNow } from "date-fns"; // We might need to install date
 import { UserRowActions } from "./user-row-actions";
 
 export default async function AdminApprovalsPage() {
-    const supabase = await createClient();
+    const supabase = (await createClient()) as any;
 
     const { data: profiles, error } = await supabase
         .from("profiles")
