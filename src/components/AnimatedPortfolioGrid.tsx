@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { ReactLenis } from '@studio-freight/react-lenis';
 import { portfolioData, PortfolioProject } from '@/data/portfolio';
+import LazyVideo from '@/components/LazyVideo';
 
 const START_WIDTH_PERCENT = 80;
 const END_WIDTH_PERCENT = 100;
@@ -125,7 +126,7 @@ export default function AnimatedPortfolioGrid() {
                 {/* Extra Feature Video */}
                 <div className="w-full max-w-6xl mx-auto px-4 py-32 flex justify-center">
                     <div className="w-full relative aspect-video overflow-hidden rounded-lg bg-black/10 shadow-2xl">
-                        <video
+                        <LazyVideo
                             src="/media/videos/rose.mp4"
                             autoPlay
                             muted
@@ -219,7 +220,7 @@ function ProjectCard({
                     style={{ transform: 'scale(1.3)' }}
                 >
                     {project.type === 'video' ? (
-                        <video
+                        <LazyVideo
                             src={project.src}
                             autoPlay
                             muted

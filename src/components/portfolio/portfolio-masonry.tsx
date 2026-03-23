@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -43,12 +44,15 @@ export function PortfolioMasonry({ items, className }: PortfolioMasonryProps) {
                         className="break-inside-avoid relative group rounded-xl overflow-hidden mb-6 bg-white/5"
                     >
                         {/* Media Content */}
-                        <img
-                            src={item.url}
-                            alt="Portfolio Item"
-                            className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-110"
-                            loading="lazy"
-                        />
+                        <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                            <Image
+                                src={item.url}
+                                alt="Portfolio Item"
+                                fill
+                                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                            />
+                        </div>
 
                         {/* Overlay */}
                         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">

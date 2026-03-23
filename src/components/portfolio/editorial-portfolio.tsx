@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import Script from "next/script";
+import Image from "next/image";
 
 interface EditorialPortfolioProps {
     username: string;
@@ -473,11 +474,12 @@ export function EditorialPortfolio({ username, mediaAssets, heroVideoUrl }: Edit
                                         height: `${pos.h}px`,
                                     }}
                                 >
-                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img
+                                    <Image
                                         src={src}
                                         alt={`${username} work ${i + 1}`}
-                                        loading="lazy"
+                                        fill
+                                        sizes="120px"
+                                        style={{ objectFit: 'cover' }}
                                     />
                                 </div>
                             );
@@ -494,7 +496,7 @@ export function EditorialPortfolio({ username, mediaAssets, heroVideoUrl }: Edit
 
                     {/* Hero video (starts fullscreen, scales to tiny) */}
                     <div className="waabi-hero-video">
-                        <video autoPlay muted loop playsInline>
+                        <video autoPlay muted loop playsInline preload="metadata">
                             <source src={heroVideo} type="video/mp4" />
                         </video>
                         <div className="waabi-hero-text">
@@ -531,11 +533,12 @@ export function EditorialPortfolio({ username, mediaAssets, heroVideoUrl }: Edit
                                             key={imgIdx}
                                             className={`waabi-gallery-item ${aspects[(colIdx + imgIdx) % 3]}`}
                                         >
-                                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                                            <img
+                                            <Image
                                                 src={src}
                                                 alt={`${username} portfolio ${colIdx * 3 + imgIdx + 1}`}
-                                                loading="lazy"
+                                                fill
+                                                sizes="(max-width: 768px) 50vw, 25vw"
+                                                style={{ objectFit: 'cover' }}
                                             />
                                         </div>
                                     ))}
