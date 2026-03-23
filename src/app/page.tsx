@@ -70,7 +70,7 @@ export default function Home() {
       <section id="home" className="banner">
         <div className="slider" style={{ "--quantity": animationImages.length } as any}>
           {animationImages.map((img, index) => (
-            <div key={index} className="item relative" style={{ "--position": index + 1, position: 'relative', width: '100%', height: '100%' } as any}>
+            <div key={index} className="item" style={{ "--position": index + 1 } as any}>
               <Image 
                 src={img} 
                 alt="Orgnlfake Model" 

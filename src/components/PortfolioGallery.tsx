@@ -304,7 +304,7 @@ export default function PortfolioGallery() {
                         <div
                             key={img.id}
                             ref={(el) => { imageRefs.current[i] = el; }}
-                            className="orbit-card relative"
+                            className="orbit-card"
                         >
                             <Image
                                 src={img.src}
