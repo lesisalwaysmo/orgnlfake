@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { CoverSlide } from "@/components/creators/cover-slide";
 import { Users, TrendingUp, Eye, ArrowRight } from "lucide-react";
@@ -36,9 +37,15 @@ export function CreatorCard({ username, images, avatar, socialStats, className }
                 {/* Username Badge & Avatar */}
                 <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 z-10 flex items-center gap-2 sm:gap-3">
                     {avatar && (
-                        <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-full overflow-hidden border border-white/20 sm:border-2 shadow-lg shrink-0">
+                        <div className="relative w-7 h-7 sm:w-10 sm:h-10 rounded-full overflow-hidden border border-white/20 sm:border-2 shadow-lg shrink-0">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={avatar} alt={username} className="w-full h-full object-cover" />
+                            <Image 
+                                src={avatar} 
+                                alt={username} 
+                                fill
+                                sizes="(max-width: 640px) 28px, 40px"
+                                className="object-cover" 
+                            />
                         </div>
                     )}
                     <h3 className="text-base sm:text-xl font-bold text-white truncate">@{username}</h3>

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -98,20 +99,26 @@ export default function PhotonScrollEffect() {
                 className="relative w-full h-full will-change-transform scale-0 flex items-center justify-center"
             >
                 {/* Base Image (With Background) */}
-                <img
+                <Image
                     src="/photon-base.jpg"
                     alt="Photon Base"
-                    className="absolute w-full h-full object-cover"
+                    fill
+                    sizes="100vw"
+                    priority
+                    className="object-cover"
                 />
 
                 {/* 6 Masked Image Copies for the 3D Stacking Effect */}
                 {[...Array(6)].map((_, i) => (
-                    <img
+                    <Image
                         key={i}
                         ref={(el) => { maskRefs.current[i] = el; }}
                         src="/photon-base.jpg"
                         alt="Photon Mask Layer"
-                        className="absolute w-full h-full object-cover will-change-transform"
+                        fill
+                        sizes="100vw"
+                        priority
+                        className="object-cover will-change-transform"
                         style={{
                             // This CSS applies your transparent PNG as a mask over the base image
                             WebkitMaskImage: 'url(/photon-mask.png)',

@@ -70,8 +70,15 @@ export default function Home() {
       <section id="home" className="banner">
         <div className="slider" style={{ "--quantity": animationImages.length } as any}>
           {animationImages.map((img, index) => (
-            <div key={index} className="item" style={{ "--position": index + 1 } as any}>
-              <img src={img} alt="" />
+            <div key={index} className="item relative" style={{ "--position": index + 1, position: 'relative', width: '100%', height: '100%' } as any}>
+              <Image 
+                src={img} 
+                alt="Orgnlfake Model" 
+                fill 
+                sizes="(max-width: 768px) 50vw, 25vw"
+                style={{ objectFit: 'cover' }}
+                priority={index < 4} 
+              />
             </div>
           ))}
         </div>
@@ -107,8 +114,14 @@ export default function Home() {
       </section>
 
       <section id="about" className="reveal" ref={addToRefs}>
-        <div className="about-img">
-          <img src="/landing/orgnlfake__1582784388_2252881193439860909_4183375751.jpg" alt="Model Profile" />
+        <div className="about-img" style={{ position: 'relative', overflow: 'hidden' }}>
+          <Image 
+            src="/landing/orgnlfake__1582784388_2252881193439860909_4183375751.jpg" 
+            alt="Model Profile" 
+            fill 
+            sizes="(max-width: 768px) 100vw, 50vw"
+            style={{ objectFit: 'cover' }}
+          />
         </div>
         <motion.div
           className="about-text"

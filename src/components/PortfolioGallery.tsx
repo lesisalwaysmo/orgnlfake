@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 
@@ -283,13 +284,16 @@ export default function PortfolioGallery() {
                 {/* Center featured image — shows the active orbit image large */}
                 <div className="center-featured">
                     {IMAGES.map((img, i) => (
-                        <img
+                        <Image
                             key={`center-${img.id}`}
                             ref={(el) => { centerImgRefs.current[i] = el; }}
                             src={img.src}
                             alt={`Featured ${img.id + 1}`}
                             className="center-featured-img"
                             draggable={false}
+                            fill
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                            priority={i === 0}
                         />
                     ))}
                 </div>
@@ -300,13 +304,15 @@ export default function PortfolioGallery() {
                         <div
                             key={img.id}
                             ref={(el) => { imageRefs.current[i] = el; }}
-                            className="orbit-card"
+                            className="orbit-card relative"
                         >
-                            <img
+                            <Image
                                 src={img.src}
                                 alt={`Production work ${img.id + 1}`}
-                                loading="lazy"
+                                loading={i < 4 ? "eager" : "lazy"}
                                 draggable={false}
+                                fill
+                                sizes="(max-width: 768px) 180px, 240px"
                             />
                         </div>
                     ))}

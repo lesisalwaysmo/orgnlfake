@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef, useCallback } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
 const categoryImages = {
@@ -203,11 +204,12 @@ export default function TheCollection() {
                                         layout
                                     >
                                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                                        <img
+                                        <Image
                                             src={src}
                                             alt={activeFilter}
-                                            loading="lazy"
-                                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                            fill
+                                            sizes="(max-width: 768px) 50vw, 25vw"
+                                            style={{ objectFit: "cover" }}
                                         />
                                         <div className="overlay">
                                             <span className="cat-label">
@@ -253,9 +255,16 @@ export default function TheCollection() {
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: i * 0.05, duration: 0.45 }}
+                                    style={{ position: 'relative' }}
                                 >
                                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img src={imgPath} alt={activeFilter} loading="lazy" />
+                                    <Image 
+                                        src={imgPath} 
+                                        alt={activeFilter} 
+                                        fill
+                                        sizes="(max-width: 768px) 50vw, 25vw"
+                                        style={{ objectFit: 'cover' }}
+                                    />
                                     <div className="overlay">
                                         <span className="cat-label">
                                             {categories.find(c => c.id === activeFilter)?.title}
