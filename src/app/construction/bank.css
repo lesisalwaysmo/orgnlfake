@@ -43,6 +43,10 @@ body:has(.bank-page) > main {
   width: 100vw;
   min-height: 100vh;
   background-color: var(--bank-bg);
+  background-image: url("/coming soon/IMG_0234-B&W.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   color: var(--bank-text);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   overflow: hidden;
