@@ -88,7 +88,7 @@ export default function TrailContainer() {
 
             const imageLayer = document.createElement('div');
             imageLayer.classList.add('image-layer');
-            imageLayer.style.backgroundImage = `url(${imgSrc})`;
+            imageLayer.style.backgroundImage = `url("${imgSrc}")`;
 
             const startYPerc = i * 10;
             const endYPerc = (i + 1) * 10;
