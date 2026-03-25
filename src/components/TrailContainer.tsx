@@ -185,7 +185,7 @@ export default function TrailContainer() {
         };
 
         const handleResize = () => {
-            isDesktopRef.current = window.innerWidth > 0;
+            isDesktopRef.current = window.innerWidth > 768;
             if (!isDesktopRef.current) {
                 cancelAnimationFrame(animFrameRef.current);
             } else {

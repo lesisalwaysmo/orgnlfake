@@ -1,23 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
-
 :root {
   --bank-bg: #03050C;
-  --bank-primary: #00E5FF;
-  --bank-secondary: #10B981;
-  --bank-text: #F8FAFC;
-  --bank-muted: #64748B;
-  --bank-surface: rgba(15, 23, 42, 0.6);
-  --bank-border: rgba(51, 65, 85, 0.4);
 }
 
-/*
- * Override root layout elements when construction page is active.
- * The root layout always renders MainNav and GlobalReveal,
- * so we hide them entirely from this page's scope.
- */
-
 /* Hide the site navigation */
-.bank-page ~ * { display: none; }
 body:has(.bank-page) > nav,
 body:has(.bank-page) > header,
 body:has(.bank-page) [class*="main-nav"],
@@ -25,12 +10,12 @@ body:has(.bank-page) [class*="MainNav"] {
   display: none !important;
 }
 
-/* Remove the pt-16 (64px) top padding from the root <main> */
+/* Remove padding from the root <main> */
 body:has(.bank-page) > main {
   padding-top: 0 !important;
 }
 
-/* Force all text in the bank page to be visible (counteract GlobalReveal clip-path) */
+/* Force visibility (counteract GlobalReveal clip-path) */
 .bank-page,
 .bank-page * {
   clip-path: none !important;
@@ -43,310 +28,7 @@ body:has(.bank-page) > main {
   width: 100vw;
   min-height: 100vh;
   background-color: var(--bank-bg);
-  background-image: url("/coming%20soon/bg.jpg");
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  color: var(--bank-text);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Background animated perspective grid */
-.bg-grid {
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
-  transform: perspective(500px) rotateX(60deg) translateY(-100px) translateZ(-200px);
-  animation: gridMove 20s linear infinite;
-  z-index: 1;
-  pointer-events: none;
-}
-
-@keyframes gridMove {
-  0% { transform: perspective(500px) rotateX(60deg) translateY(0) translateZ(-200px); }
-  100% { transform: perspective(500px) rotateX(60deg) translateY(60px) translateZ(-200px); }
-}
-
-/* Central glowing orb */
-.bg-glow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 600px;
-  height: 600px;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(circle, rgba(0, 229, 255, 0.08) 0%, rgba(16, 185, 129, 0.03) 40%, transparent 70%);
-  z-index: 1;
-  pointer-events: none;
-  animation: pulseGlow 8s ease-in-out infinite alternate;
-}
-
-@keyframes pulseGlow {
-  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
-  100% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
-}
-
-/* Header Lock Icon */
-.lock-icon-wrapper {
-  position: absolute;
-  top: 40px;
-  z-index: 10;
-  color: var(--bank-primary);
-  opacity: 0.8;
-  animation: lockFloat 4s ease-in-out infinite;
-}
-
-@keyframes lockFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-/* Main Content Wrapper */
-.bank-content {
-  position: relative;
-  z-index: 10;
-  max-width: 800px;
-  padding: 0 24px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* Invite Only Badge */
-.system-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 16px;
-  border-radius: 100px;
-  background: rgba(0, 229, 255, 0.05);
-  border: 1px solid rgba(0, 229, 255, 0.2);
-  margin-bottom: 32px;
-  animation: fadeInDown 1s ease 0.2s both;
-}
-
-.pulse-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--bank-primary);
-  box-shadow: 0 0 10px var(--bank-primary);
-  animation: blink 2s infinite;
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-
-.status-text {
-  font-size: 0.75rem;
-  letter-spacing: 0.2em;
-  font-weight: 600;
-  color: var(--bank-primary);
-}
-
-/* Hero Typography */
-.hero-title {
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  font-weight: 300;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  margin-bottom: 24px;
-  animation: fadeInDown 1s ease 0.4s both;
-}
-
-.gradient-text {
-  font-weight: 500;
-  background: linear-gradient(to right, var(--bank-primary), var(--bank-secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero-subtitle {
-  font-size: clamp(1rem, 1.5vw, 1.15rem);
-  color: var(--bank-muted);
-  max-width: 580px;
-  line-height: 1.6;
-  margin-bottom: 48px;
-  font-weight: 300;
-  animation: fadeInDown 1s ease 0.6s both;
-}
-
-/* Glassmorphic Waitlist Form */
-.waitlist-card {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  width: 100%;
-  max-width: 480px;
-  background: var(--bank-surface);
-  backdrop-filter: blur(16px);
-  border: 1px solid var(--bank-border);
-  padding: 24px;
-  border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.05);
-  animation: fadeIn 1s ease 0.8s both;
-}
-
-.input-group {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.mail-icon {
-  position: absolute;
-  left: 16px;
-  color: var(--bank-muted);
-}
-
-.input-group input {
-  width: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid var(--bank-border);
-  border-radius: 8px;
-  padding: 16px 16px 16px 48px;
-  color: white;
-  font-size: 1rem;
-  outline: none;
-  transition: all 0.3s ease;
-}
-
-.input-group input:focus {
-  border-color: var(--bank-primary);
-  box-shadow: 0 0 0 1px var(--bank-primary);
-}
-
-.input-group input::placeholder {
-  color: var(--bank-muted);
-}
-
-.join-btn {
-  background: var(--bank-text);
-  color: var(--bank-bg);
-  border: none;
-  border-radius: 8px;
-  padding: 16px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 52px;
-}
-
-.join-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0, 229, 255, 0.15);
-  background: var(--bank-primary);
-}
-
-.join-btn.loading {
-  background: var(--bank-muted);
-  cursor: wait;
-}
-
-.join-btn.success {
-  background: var(--bank-secondary);
-  color: white;
-}
-
-.loader {
-  width: 20px;
-  height: 20px;
-  border: 2px solid rgba(255,255,255,0.3);
-  border-radius: 50%;
-  border-top-color: #fff;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* Trust Badges */
-.trust-badges {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 24px;
-  margin-top: 60px;
-  animation: fadeIn 1s ease 1s both;
-}
-
-.badge {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  color: var(--bank-muted);
-  font-weight: 500;
-}
-
-.badge svg {
-  color: var(--bank-primary);
-  opacity: 0.8;
-}
-
-/* Corner UI Elements */
-.ui-corner {
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  border: 1px solid var(--bank-primary);
-  opacity: 0.3;
-  pointer-events: none;
-  z-index: 5;
-}
-
-.ui-corner.top-left { top: 24px; left: 24px; border-right: none; border-bottom: none; }
-.ui-corner.top-right { top: 24px; right: 24px; border-left: none; border-bottom: none; }
-.ui-corner.bottom-left { bottom: 24px; left: 24px; border-right: none; border-top: none; }
-.ui-corner.bottom-right { bottom: 24px; right: 24px; border-left: none; border-top: none; }
-
-.corner-text {
-  position: absolute;
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  color: var(--bank-muted);
-  text-transform: uppercase;
-  z-index: 5;
-}
-
-.corner-text.top-left { top: 28px; left: 56px; }
-.corner-text.top-right { top: 28px; right: 56px; }
-
-/* Responsive adjustments */
-@media (max-width: 640px) {
-  .hero-title { font-size: 2.2rem; }
-  .trust-badges { gap: 16px; flex-direction: column; align-items: stretch; }
-  .ui-corner, .corner-text { display: none; }
-}
-
-@keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
 }
 
 /* ===============================================
@@ -360,8 +42,8 @@ body:has(.bank-page) > main {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  z-index: 2; /* Sits above background, below the glassmorphic card */
-  pointer-events: none; /* Allows clicks to go through the images */
+  z-index: 2;
+  pointer-events: none;
 }
 
 .trail-img {
@@ -389,4 +71,10 @@ body:has(.bank-page) > main {
   height: 100%;
   background-size: cover;
   background-position: center;
+}
+
+@media (max-width: 768px) {
+  .trail-container {
+    display: none !important;
+  }
 }
