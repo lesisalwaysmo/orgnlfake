@@ -24,7 +24,7 @@ export default function BankClient() {
     });
 
     return (
-        <main className="bank-page min-h-screen text-white flex flex-col justify-between p-10 md:p-24 overflow-hidden relative">
+        <main className="no-reveal bank-page min-h-screen text-white flex flex-col justify-between p-10 md:p-24 overflow-hidden relative">
             {/* The Trail Container running in the background */}
             <TrailContainer />
 
