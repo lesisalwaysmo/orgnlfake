@@ -40,13 +40,13 @@ export default function BankClient() {
             <div className="flex flex-col gap-16 relative z-10">
                 <div>
                     <BlockReveal color="#ffffff" delay={0.2}>
-                        <h1 className="text-6xl md:text-[10rem] font-black uppercase leading-[0.85] tracking-tighter">
+                        <h1 className="nabla-title text-6xl md:text-[10rem] font-black uppercase leading-[0.85] tracking-tighter">
                             Something
                         </h1>
-                        <h1 className="text-6xl md:text-[10rem] font-black uppercase leading-[0.85] tracking-tighter">
+                        <h1 className="nabla-title text-6xl md:text-[10rem] font-black uppercase leading-[0.85] tracking-tighter">
                             Original
                         </h1>
-                        <h1 className="text-6xl md:text-[10rem] font-black uppercase leading-[0.85] tracking-tighter">
+                        <h1 className="nabla-title text-6xl md:text-[10rem] font-black uppercase leading-[0.85] tracking-tighter">
                             Coming!!
                         </h1>
                     </BlockReveal>

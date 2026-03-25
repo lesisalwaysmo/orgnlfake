@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Nabla&display=swap');
+
 :root {
   --bank-bg: #03050C;
 }
@@ -81,4 +83,14 @@ body:has(.bank-page) > main {
   .trail-container {
     display: none !important;
   }
+}
+
+.nabla-title {
+  font-family: "Nabla", system-ui;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "EDPT" 100,
+    "EHLT" 12;
 }
