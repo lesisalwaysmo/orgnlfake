@@ -93,4 +93,5 @@ body:has(.bank-page) > main {
   font-variation-settings:
     "EDPT" 100,
     "EHLT" 12;
+  filter: grayscale(100%);
 }
