@@ -32,7 +32,7 @@ export default function BankClient() {
             <div ref={brandRef} className="flex items-center gap-3 relative z-10 mt-8 md:mt-0">
                 <div className="h-[1px] w-12 bg-cyan-500 opacity-50" />
                 <p className="font-mono text-[10px] tracking-[0.3em] uppercase text-cyan-400">
-                    Engineered on <span className="font-bold text-white">Antigravity NextJS</span>
+                    Engineered on <span className="font-bold text-white">OrgnlFake</span>
                 </p>
             </div>
 
