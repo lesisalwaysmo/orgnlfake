@@ -212,3 +212,8 @@ p {
   letter-spacing: -0.03em;
   line-height: 1.1;
 }
+
+h1 {
+  letter-spacing: -0.05em; /* Squeezes the letters for that portfolio-site look */
+  word-spacing: -0.1em;
+}
