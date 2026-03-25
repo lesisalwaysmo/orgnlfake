@@ -73,7 +73,7 @@ export default function BankClient() {
                     001 // Core v.1.0.4
                 </div>
                 <div className="text-[10px] font-mono text-gray-400 uppercase text-right">
-                    Antigravity Framework <br /> NextJS App Structure
+                    <a href="mailto:info@orgnlfake.agency" className="hover:text-white transition-colors">Contact us: info@orgnlfake.agency</a>
                 </div>
             </div>
         </main>
