@@ -98,17 +98,9 @@ body:has(.bank-page) > main {
 
 @media (max-width: 768px) {
   .nabla-title {
-    /* Nabla COLRv1 color font renders as black on mobile Safari.
-       Override: ditch the color font, use a bold system font
-       with gray color + text-shadow for the 3D effect. */
-    font-family: system-ui, -apple-system, sans-serif;
+    /* Force gray color on mobile where Nabla renders black */
     color: #9ca3af !important;
     -webkit-text-fill-color: #9ca3af;
-    -webkit-text-stroke: 1px rgba(156, 163, 175, 0.5);
-    text-shadow:
-      2px 2px 0px #4b5563,
-      4px 4px 0px #374151,
-      6px 6px 8px rgba(0, 0, 0, 0.4);
-    filter: none;
+    filter: grayscale(100%) brightness(2.5) contrast(1.3);
   }
 }
