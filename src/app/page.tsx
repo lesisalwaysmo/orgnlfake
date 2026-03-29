@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import PhotonScrollEffect from "@/components/PhotonScrollEffect";
+import FeaturedInfluencersWidget from "@/components/FeaturedInfluencersWidget";
 import "./landing.css";
 
 const animationImages = [
@@ -98,6 +99,9 @@ export default function Home() {
           In an industry often defined by rigid expectations and artificial standards, <strong>Orgnlfake</strong> was born to serve as a sanctuary for the authentic. Based in the vibrant creative landscape of South Africa, we are more than an agency; we are a <strong>Pro-Choice Collective</strong>. We believe that every individual has the right to navigate their career without surrendering their autonomy. To us, &apos;Original&apos; isn&apos;t just a name—it&apos;s a commitment to the unfiltered, culturally diverse, and beautifully complex reality of Mzansi.
         </motion.p>
       </section>
+
+      {/* --- INFLUENCER WIDGET OVERLAY --- */}
+      <FeaturedInfluencersWidget />
 
       {/* Photon Scroll Animation Section */}
       <PhotonScrollEffect />

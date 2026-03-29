@@ -41,7 +41,7 @@ export function PortfolioMasonry({ items, className }: PortfolioMasonryProps) {
                             ease: "easeOut",
                             delay: index * 0.1, // Staggered delay
                         }}
-                        className="break-inside-avoid relative group rounded-xl overflow-hidden mb-6 bg-white/5"
+                        className="break-inside-avoid relative group rounded-xl overflow-hidden mb-6 bg-white/5 aspect-[4/5]"
                     >
                         {/* Media Content */}
                         <div style={{ position: 'relative', width: '100%', height: '100%' }}>

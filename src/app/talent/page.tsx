@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { CreatorCard } from "@/components/creators/creator-card";
 import { CreatorSearch } from "@/components/creators/creator-search";
+import { getCreatorPortfolioAssets, getCreatorScatterAssets } from "@/lib/portfolio-utils";
 
 export const metadata = {
     title: "Content Creators | Orgnlfake",
@@ -71,7 +72,19 @@ export default async function TalentPage() {
                 id: "creator-koketso-m",
                 username: "koketso_.m_",
                 avatar: "/images/profiles/koketso_.m_.jpg",
-                media_assets: ["/mediakits/@koketso_.m_.jpg"],
+                media_assets: [
+                    "/Creators Portfolios/Koketso/gwekhjbeeher.jpg",
+                    "/Creators Portfolios/Koketso/hbsdhshe.jpg",
+                    "/Creators Portfolios/Koketso/hydtydrrr.jpg",
+                    "/Creators Portfolios/Koketso/jhgsfjkhas.jpg",
+                    "/Creators Portfolios/Koketso/jkhasfbsjhhd.jpg",
+                    "/Creators Portfolios/Koketso/jyfydccfg.jpg",
+                    "/Creators Portfolios/Koketso/khbsdkhbvds.jpg",
+                    "/Creators Portfolios/Koketso/khzvb.jpg",
+                    "/Creators Portfolios/Koketso/kokie-finalle.jpg",
+                    "/Creators Portfolios/Koketso/kshgfhugd.jpg",
+                    "/Creators Portfolios/Koketso/ugsdjhdhdh.jpg"
+                ],
                 social_stats: { followers: 15000, engagement_rate: "6.2%", total_reach: 22000 }
             },
             {
@@ -156,11 +169,7 @@ export default async function TalentPage() {
                 <div className="flex-1 h-px bg-white/10" />
             </div>
 
-            {isMockData && (
-                <div className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-300 px-4 py-3 rounded-md mb-8 text-center text-sm">
-                    <strong>Note:</strong> Attempted to fetch from Supabase, but the database seems paused or unreachable. Playing back mock data instead.
-                </div>
-            )}
+            {/* The mock data fallback note was removed for a cleaner UI */}
 
             {!creatorsData || creatorsData.length === 0 ? (
                 <div className="flex flex-col items-center justify-center min-h-[40vh] text-center border rounded-xl border-dashed p-8">
@@ -169,11 +178,21 @@ export default async function TalentPage() {
                 </div>
             ) : (
                 <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
-                    {creatorsData.map((creator) => {
-                        // Parse media_assets
-                        const images = Array.isArray(creator.media_assets)
-                            ? creator.media_assets.filter((item): item is string => typeof item === 'string')
-                            : [];
+                    {await Promise.all(creatorsData.map(async (creator) => {
+                        // Dynamically load media assets from filesystem overriding mock
+                        const { scatterImages } = await getCreatorScatterAssets(creator.username || "");
+                        let previewImages = (scatterImages || [])
+                            .filter(url => !url.match(/\.(mp4|mov|webm)$/i))
+                            .slice(0, 3);
+                        
+                        // Fallback to category grid if no scatter images exist
+                        if (previewImages.length === 0) {
+                            const dynamicAssets = await getCreatorPortfolioAssets(creator.username || "");
+                            previewImages = dynamicAssets
+                                .filter(a => typeof a.url === 'string' && !a.url.toLowerCase().includes('placeholder') && !a.url.match(/\.(mp4|mov|webm)$/i))
+                                .map(a => a.url)
+                                .slice(0, 3);
+                        }
 
                         const avatar = creator.avatar;
 
@@ -189,11 +208,11 @@ export default async function TalentPage() {
                                 key={creator.id}
                                 username={creator.username || "Creator"}
                                 avatar={avatar}
-                                images={images}
+                                images={previewImages.length > 0 ? previewImages : ["/Placeholders/blueplaceholder.png"]}
                                 socialStats={socialStats}
                             />
                         );
-                    })}
+                    }))}
                 </div>
             )}
 

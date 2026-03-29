@@ -3,11 +3,13 @@
 import React, { useEffect, useRef } from "react";
 import Script from "next/script";
 import Image from "next/image";
+import Link from "next/link";
 
 interface EditorialPortfolioProps {
     username: string;
-    mediaAssets: string[];
+    mediaAssets: (string | { url: string; category?: string })[];
     heroVideoUrl?: string;
+    scatterImages?: string[];
 }
 
 /*
@@ -43,20 +45,40 @@ const THUMBNAIL_POSITIONS = [
     { top: "75%", left: "80%", w: 110, h: 130 },
 ];
 
-export function EditorialPortfolio({ username, mediaAssets, heroVideoUrl }: EditorialPortfolioProps) {
+export function EditorialPortfolio({ username, mediaAssets, heroVideoUrl, scatterImages }: EditorialPortfolioProps) {
     const initialized = useRef(false);
+    // Use state to track the auto-slide offset
+    const [offset, setOffset] = React.useState(0);
 
-    // Separate images from videos
-    const videoExtensions = [".mp4", ".mov", ".webm"];
-    const images = mediaAssets.filter(
-        (url) => !videoExtensions.some((ext) => url.toLowerCase().endsWith(ext))
-    );
+    // Keep all assets for the masonry grid, no filtering out!
+    const images = mediaAssets;
 
-    // Ensure we have enough images for 12 thumbnail positions
-    const thumbImages: string[] = [];
-    for (let i = 0; i < THUMBNAIL_POSITIONS.length; i++) {
-        thumbImages.push(images[i % images.length] || `https://picsum.photos/200/${250 + i}`);
-    }
+    // Use a pool of images for the scattered grid (upper grid)
+    const sourceThumbPool = scatterImages && scatterImages.length > 0 ? scatterImages : images;
+
+    // Auto-slide effect for the 11 thumbnails
+    useEffect(() => {
+        if (sourceThumbPool.length <= 11) return; // Only slide if we have more than 11 images
+        
+        const intervalId = setInterval(() => {
+            setOffset(prev => (prev + 1) % sourceThumbPool.length);
+        }, 3000); // Cycle every 3 seconds
+
+        return () => clearInterval(intervalId);
+    }, [sourceThumbPool.length]);
+
+    // Ensure we have enough images for 11 thumbnail positions, cycling through the pool
+    const thumbImages = THUMBNAIL_POSITIONS.map((_, i) => {
+        const item = sourceThumbPool[(i + offset) % Math.max(1, sourceThumbPool.length)];
+        if (typeof item === "string") {
+            return { url: item };
+        } else if (item) {
+            return item;
+        } else {
+            const PLACEHOLDERS = ["/Placeholders/blueplaceholder.png", "/Placeholders/greenplaceholder.png", "/Placeholders/redplaceholder.png", "/Placeholders/yellowplaceholder.png"];
+            return { url: PLACEHOLDERS[i % PLACEHOLDERS.length] };
+        }
+    });
 
     const fallbackVideo =
         "https://assets.mixkit.co/videos/preview/mixkit-fashion-model-posing-in-a-studio-setting-34443-large.mp4";
@@ -307,6 +329,25 @@ export function EditorialPortfolio({ username, mediaAssets, heroVideoUrl }: Edit
                     will-change: transform, opacity;
                 }
 
+                .waabi-thumb-label {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    color: white;
+                    font-size: 13px;
+                    text-transform: uppercase;
+                    letter-spacing: 0.2em;
+                    font-weight: 600;
+                    text-shadow: 0 0 15px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.9);
+                    pointer-events: none;
+                    text-align: center;
+                    width: 90%;
+                    padding: 0;
+                    opacity: 0.95;
+                    z-index: 10;
+                }
+
                 .waabi-thumb:hover {
                     z-index: 30;
                 }
@@ -324,7 +365,7 @@ export function EditorialPortfolio({ username, mediaAssets, heroVideoUrl }: Edit
                     will-change: transform;
                 }
 
-                /* --- Center text --- */
+                /* --- Center text/image --- */
                 .waabi-center-text {
                     position: absolute;
                     top: 50%;
@@ -332,20 +373,71 @@ export function EditorialPortfolio({ username, mediaAssets, heroVideoUrl }: Edit
                     transform: translate(-50%, -50%);
                     z-index: 20;
                     text-align: center;
-                    width: 42%;
-                    max-width: 520px;
+                    width: 55%;
+                    max-width: 800px;
                     opacity: 0;
                     pointer-events: none;
                 }
 
-                .waabi-center-text p {
-                    font-family: 'Georgia', 'Times New Roman', serif;
-                    font-style: italic;
-                    font-size: clamp(1.4rem, 2.8vw, 2.2rem);
-                    line-height: 1.45;
-                    color: #1a1a1a;
-                    font-weight: 400;
-                    letter-spacing: -0.01em;
+                .waabi-center-image-wrapper {
+                    position: relative;
+                    display: inline-block;
+                    width: 100%;
+                    pointer-events: auto;
+                }
+
+                .waabi-center-image {
+                    width: 100%;
+                    height: auto;
+                    border-radius: 20px;
+                    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+                    opacity: 0.95;
+                }
+
+                /* Invisible overlay buttons */
+                .waabi-cover-btn {
+                    position: absolute;
+                    background: transparent;
+                    border: none;
+                    cursor: pointer;
+                    z-index: 25;
+                    border-radius: 12px;
+                    transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                    text-decoration: none;
+                    display: block;
+                }
+
+                .waabi-cover-btn:hover {
+                    background: rgba(255, 255, 255, 0.25);
+                    box-shadow: 0 0 25px rgba(255, 255, 255, 0.5), 0 0 50px rgba(255, 255, 255, 0.2);
+                    backdrop-filter: brightness(1.3) blur(2px);
+                }
+
+                /* BOOK ME button — pill shape, top center */
+                .waabi-cover-btn--book {
+                    top: 18%;
+                    left: 33%;
+                    width: 14%;
+                    height: 12%;
+                    border-radius: 20px;
+                }
+
+                /* VIEW THE WHOLE PORTFOLIO — large label, center */
+                .waabi-cover-btn--portfolio {
+                    top: 42%;
+                    left: 34%;
+                    width: 26%;
+                    height: 22%;
+                    border-radius: 14px;
+                }
+
+                /* GO BACK TO CREATORS — pill shape, right side */
+                .waabi-cover-btn--creators {
+                    top: 42%;
+                    left: 69%;
+                    width: 13%;
+                    height: 16%;
+                    border-radius: 20px;
                 }
 
                 /* --- Gallery section (scrollable, below pinned) --- */
@@ -461,7 +553,7 @@ export function EditorialPortfolio({ username, mediaAssets, heroVideoUrl }: Edit
 
                     {/* Scattered thumbnails layer */}
                     <div className="waabi-thumbs-layer">
-                        {thumbImages.map((src, i) => {
+                        {thumbImages.map((img, i) => {
                             const pos = THUMBNAIL_POSITIONS[i];
                             return (
                                 <div
@@ -475,7 +567,7 @@ export function EditorialPortfolio({ username, mediaAssets, heroVideoUrl }: Edit
                                     }}
                                 >
                                     <Image
-                                        src={src}
+                                        src={img.url}
                                         alt={`${username} work ${i + 1}`}
                                         fill
                                         sizes="120px"
@@ -486,12 +578,37 @@ export function EditorialPortfolio({ username, mediaAssets, heroVideoUrl }: Edit
                         })}
                     </div>
 
-                    {/* Center text (appears after hero shrinks) */}
+                    {/* Center image (appears after hero shrinks) */}
                     <div className="waabi-center-text">
-                        <p>
-                            Fragments of motion and atmosphere gathered into a drifting
-                            collection of quiet visual moments.
-                        </p>
+                        <div className="waabi-center-image-wrapper">
+                            <Image
+                                src="/covers/cover1.jpg"
+                                alt="Orgnlfake cover"
+                                width={1312}
+                                height={529}
+                                className="waabi-center-image"
+                            />
+                            {/* Invisible overlay buttons */}
+                            <a
+                                href={`mailto:bookings@orgnlfake.agency?subject=Booking%20${username}`}
+                                className="waabi-cover-btn waabi-cover-btn--book"
+                                aria-label="Book Me"
+                            />
+                            <a
+                                href="#gallery"
+                                className="waabi-cover-btn waabi-cover-btn--portfolio"
+                                aria-label="View the whole portfolio"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    document.querySelector('.waabi-gallery-section')?.scrollIntoView({ behavior: 'smooth' });
+                                }}
+                            />
+                            <a
+                                href="/talent"
+                                className="waabi-cover-btn waabi-cover-btn--creators"
+                                aria-label="Go back to creators"
+                            />
+                        </div>
                     </div>
 
                     {/* Hero video (starts fullscreen, scales to tiny) */}
@@ -514,11 +631,12 @@ export function EditorialPortfolio({ username, mediaAssets, heroVideoUrl }: Edit
                 <section className="waabi-gallery-section">
                     <div className="waabi-gallery-grid">
                         {[0, 1, 2, 3].map((colIdx) => {
-                            const colImages = images.filter((_, i) => i % 4 === colIdx);
+                            const colItems = images.filter((_, i) => i % 4 === colIdx);
                             // Pad if needed
-                            while (colImages.length < 3) {
-                                colImages.push(
-                                    `https://picsum.photos/400/${610 + colIdx * 10 + colImages.length}`
+                            while (colItems.length < 3) {
+                                const PLACEHOLDERS = ["/Placeholders/blueplaceholder.png", "/Placeholders/greenplaceholder.png", "/Placeholders/redplaceholder.png", "/Placeholders/yellowplaceholder.png"];
+                                colItems.push(
+                                    PLACEHOLDERS[(colIdx * 10 + colItems.length) % PLACEHOLDERS.length]
                                 );
                             }
                             const aspects = [
@@ -528,20 +646,66 @@ export function EditorialPortfolio({ username, mediaAssets, heroVideoUrl }: Edit
                             ];
                             return (
                                 <div key={colIdx} className="waabi-gallery-col">
-                                    {colImages.map((src, imgIdx) => (
-                                        <div
-                                            key={imgIdx}
-                                            className={`waabi-gallery-item ${aspects[(colIdx + imgIdx) % 3]}`}
-                                        >
-                                            <Image
-                                                src={src}
-                                                alt={`${username} portfolio ${colIdx * 3 + imgIdx + 1}`}
-                                                fill
-                                                sizes="(max-width: 768px) 50vw, 25vw"
-                                                style={{ objectFit: 'cover' }}
-                                            />
-                                        </div>
-                                    ))}
+                                    {colItems.map((item, imgIdx) => {
+                                        const src = typeof item === "string" ? item : item.url;
+                                        const category = typeof item === "string" ? null : item.category;
+                                        const needsBlur = category && (category.toLowerCase().includes("boudoir") || category.toLowerCase().includes("lingerie"));
+                                        const blurStyle = needsBlur ? { filter: 'blur(12px)', transform: 'scale(1.1)' } : {};
+                                        return (
+                                            <div
+                                                key={imgIdx}
+                                                className={`waabi-gallery-item ${aspects[(colIdx + imgIdx) % 3]} relative group`}
+                                            >
+                                                {category ? (
+                                                    <Link href={`/${username}/portfolio/${encodeURIComponent(category)}`} className="block w-full h-full relative cursor-pointer">
+                                                        {src.match(/\.(mp4|mov|webm)$/i) ? (
+                                                            <video
+                                                                src={src}
+                                                                autoPlay
+                                                                muted
+                                                                loop
+                                                                playsInline
+                                                                className="w-full h-full object-cover"
+                                                                style={blurStyle}
+                                                            />
+                                                        ) : (
+                                                            <Image
+                                                                src={src}
+                                                                alt={`${username} portfolio ${category}`}
+                                                                fill
+                                                                sizes="(max-width: 768px) 50vw, 25vw"
+                                                                style={{ objectFit: 'cover', ...blurStyle }}
+                                                            />
+                                                        )}
+                                                        <div className="waabi-thumb-label">
+                                                            {category}
+                                                        </div>
+                                                    </Link>
+                                                ) : (
+                                                    <>
+                                                        {src.match(/\.(mp4|mov|webm)$/i) ? (
+                                                            <video
+                                                                src={src}
+                                                                autoPlay
+                                                                muted
+                                                                loop
+                                                                playsInline
+                                                                className="w-full h-full object-cover"
+                                                            />
+                                                        ) : (
+                                                            <Image
+                                                                src={src}
+                                                                alt={`${username} portfolio ${colIdx * 3 + imgIdx + 1}`}
+                                                                fill
+                                                                sizes="(max-width: 768px) 50vw, 25vw"
+                                                                style={{ objectFit: 'cover' }}
+                                                            />
+                                                        )}
+                                                    </>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             );
                         })}

@@ -75,34 +75,13 @@ export default function TheCollection() {
     const [activeFilter, setActiveFilter] = useState("fashion");
     const [hoveredFilter, setHoveredFilter] = useState<string | null>(null);
     const [expanded, setExpanded] = useState(false);
-    const [slideIndex, setSlideIndex] = useState(0);
-    const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+    const [slideIndex] = useState(0);
     const revealRefs = useRef<HTMLElement[]>([]);
 
     const displayFilter = hoveredFilter ?? activeFilter;
     const currentImages = categoryImages[displayFilter as keyof typeof categoryImages];
     const visibleCount = Math.min(currentImages.length, MAX_VISIBLE);
     const hasMore = currentImages.length > MAX_VISIBLE;
-
-    const startSlide = useCallback(() => {
-        if (intervalRef.current) clearInterval(intervalRef.current);
-        intervalRef.current = setInterval(() => {
-            setSlideIndex(prev => (prev + 1) % currentImages.length);
-        }, 2000);
-    }, [currentImages.length]);
-
-    const stopSlide = () => {
-        if (intervalRef.current) { clearInterval(intervalRef.current); intervalRef.current = null; }
-    };
-
-    useEffect(() => {
-        if (!expanded) {
-            startSlide();
-        } else {
-            stopSlide();
-        }
-        return stopSlide;
-    }, [activeFilter, expanded, startSlide]);
 
     useEffect(() => {
         const observer = new IntersectionObserver(entries => {
@@ -126,7 +105,6 @@ export default function TheCollection() {
     };
 
     const handleFilter = (id: string) => {
-        setSlideIndex(0);
         setActiveFilter(id);
         setHoveredFilter(null);
         setExpanded(false);
