@@ -94,6 +94,11 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
             social_stats: { followers: 41000, engagement_rate: "7.2%", total_reach: 62000 },
             rate_card: [],
         },
+        "anathii_peter": {
+            username: "anathii_peter",
+            social_stats: { followers: 17000, engagement_rate: "8.5%", total_reach: 25000 },
+            rate_card: [],
+        },
     };
 
     // Fetch profile from Supabase, fall back to mock data
@@ -133,6 +138,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
         "_booysen": "/Profile photos/@_booysen.jpg",
         "__bellaswrld": "/Profile photos/@__bellaswrld.jpg",
         "they_adore_tshego": "/Profile photos/@they_adore_tshego.jpg",
+        "anathii_peter": "/Profile photos/@anathii_peter.jpg",
     };
 
     const avatarUrl = profileData.avatar_url || mockAvatars[decodedUsername] || null;

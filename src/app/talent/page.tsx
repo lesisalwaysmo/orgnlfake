@@ -34,6 +34,17 @@ export default async function TalentPage() {
         isMockData = true;
         creatorsData = [
             {
+                id: "creator-estoy-kiki",
+                username: "estoy.kiki",
+                avatar: "/Profile photos/@estoy.kiki.jpg",
+                media_assets: [
+                    "/Creators Portfolios/@estoy.kiki/lifestyle_1.jpg",
+                    "/Creators Portfolios/@estoy.kiki/Fashion Editorial/fashion_1.jpg",
+                    "/Creators Portfolios/@estoy.kiki/travel_1.jpg"
+                ],
+                social_stats: { followers: 3978, engagement_rate: "18.1%", total_reach: 7500 }
+            },
+            {
                 id: "creator-gorg-fox",
                 username: "gorg_fox.rsa",
                 avatar: "/images/profiles/gorg_fox.rsa.jpg",
@@ -135,6 +146,13 @@ export default async function TalentPage() {
                 avatar: "/Profile photos/@they_adore_tshego.jpg",
                 media_assets: ["/mediakits/@they_adore_tshego.jpg"],
                 social_stats: { followers: 41000, engagement_rate: "7.2%", total_reach: 62000 }
+            },
+            {
+                id: "creator-anathii-peter",
+                username: "anathii_peter",
+                avatar: "/Profile photos/@anathii_peter.jpg",
+                media_assets: ["/Placeholders/blueplaceholder.png"],
+                social_stats: { followers: 17000, engagement_rate: "8.5%", total_reach: 25000 }
             }
         ];
     }

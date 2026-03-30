@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import BankClient from './bank-client';
 
 export const metadata: Metadata = {
-    title: 'VAULT | The Future of Wealth',
-    description: 'A new era of secure, borderless banking. Join the exclusive waitlist.',
+    title: 'ORGNLFAKE | Unfiltered Reality',
+    description: 'High Fashion & Creative Arts platform. Connect with top content creators.',
 };
 
 export default function ConstructionPage() {
