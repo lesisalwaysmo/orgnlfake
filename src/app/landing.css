@@ -501,7 +501,8 @@
     }
 
     .hero-content {
-        margin-top: 250px;
+        top: 35vh;
+        margin-top: 0;
     }
 }
 
