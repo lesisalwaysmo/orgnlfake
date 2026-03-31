@@ -7,7 +7,7 @@ import { updateSession } from '@/lib/supabase/middleware';
  * Set to `true`  → all visitors redirected to /construction
  * Set to `false` → normal site operation
  */
-const CONSTRUCTION_MODE = false;
+const CONSTRUCTION_MODE = true;
 
 export async function middleware(request: NextRequest) {
     const { pathname, searchParams } = request.nextUrl;
