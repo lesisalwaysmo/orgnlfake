@@ -2,6 +2,8 @@
 
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
+import Script from "next/script";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import PhotonScrollEffect from "@/components/PhotonScrollEffect";
 import FeaturedInfluencersWidget from "@/components/FeaturedInfluencersWidget";
@@ -62,14 +64,26 @@ export default function Home() {
   };
 
   return (
-    <div className="landing-body">
-      <div
-        className="landing-cursor"
-        style={{ left: cursorPos.x, top: cursorPos.y }}
-      ></div>
+    <>
+      <Script 
+        id="unicorn-studio"
+        src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.1.1/dist/unicornStudio.umd.js" 
+        strategy="afterInteractive"
+        onLoad={() => {
+          if (typeof window !== 'undefined' && (window as any).UnicornStudio) {
+            (window as any).UnicornStudio.init();
+          }
+        }}
+      />
+      <div className="landing-body">
+        <div
+          className="landing-cursor"
+          style={{ left: cursorPos.x, top: cursorPos.y }}
+        ></div>
 
-      <section id="home" className="banner">
-        <div className="slider" style={{ "--quantity": animationImages.length } as any}>
+        <section id="home" className="banner">
+          <div className="absolute w-full h-[120vh] left-0 -top-[10vh]" style={{ transform: 'translateZ(0px)', mixBlendMode: 'screen' }} data-us-project="aH0ZsntZ1TcKHIyweEA8"></div>
+          <div className="slider" style={{ "--quantity": animationImages.length } as any}>
           {animationImages.map((img, index) => (
             <div key={index} className="item" style={{ "--position": index + 1 } as any}>
               <Image 
@@ -83,12 +97,29 @@ export default function Home() {
             </div>
           ))}
         </div>
+        </section>
+
         <div className="hero-content reveal" ref={addToRefs}>
           <div className="hero-subtitle">High Fashion & Creative Arts</div>
           <h1 className="hero-title">Unfiltered<br />Reality</h1>
+          
+          <Link href="/join" className="join-btn inline-flex transition overflow-hidden group text-sm font-medium text-white rounded-full pt-3 pr-5 pb-3 pl-5 relative gap-x-2 gap-y-2 items-center mx-auto mt-4">
+            <div className="loader" style={{ position: 'absolute', top: 0, left: 0, height: '100%', width: '100%', zIndex: 1, backgroundColor: 'transparent', mask: 'repeating-linear-gradient(90deg, transparent 0, transparent 6px, black 7px, black 8px)', WebkitMask: 'repeating-linear-gradient(90deg, transparent 0, transparent 6px, black 7px, black 8px)' }}>
+              <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundImage: 'radial-gradient(circle at 50% 50%, #f43f5e 0%, transparent 50%), radial-gradient(circle at 45% 45%, #ef4444 0%, transparent 45%), radial-gradient(circle at 55% 55%, #fb7185 0%, transparent 45%), radial-gradient(circle at 45% 55%, #f87171 0%, transparent 45%), radial-gradient(circle at 55% 45%, #dc2626 0%, transparent 45%)', mask: 'radial-gradient(circle at 50% 50%, transparent 0%, transparent 10%, black 25%)', WebkitMask: 'radial-gradient(circle at 50% 50%, transparent 0%, transparent 10%, black 25%)', animation: 'transform-animation 2s infinite alternate, opacity-animation 4s infinite', animationTimingFunction: 'cubic-bezier(0.6, 0.8, 0.5, 1)', filter: 'drop-shadow(0 0 8px rgba(244, 63, 94, 0.6))' }}></div>
+            </div>
+            
+            <span style={{ position: 'relative', zIndex: 2, fontFamily: "'Inter', sans-serif", fontSize: '1em', fontWeight: 600, userSelect: 'none', color: '#fff', display: 'flex', gap: '0.5rem' }}>
+              <span className="loader-letter" style={{ display: 'inline-block', opacity: 0, animation: 'loader-letter-anim 4s infinite linear', animationDelay: '0.1s' }}>J</span>
+              <span className="loader-letter" style={{ display: 'inline-block', opacity: 0, animation: 'loader-letter-anim 4s infinite linear', animationDelay: '0.205s' }}>o</span>
+              <span className="loader-letter" style={{ display: 'inline-block', opacity: 0, animation: 'loader-letter-anim 4s infinite linear', animationDelay: '0.31s' }}>i</span>
+              <span className="loader-letter" style={{ display: 'inline-block', opacity: 0, animation: 'loader-letter-anim 4s infinite linear', animationDelay: '0.415s' }}>n</span>
+              <span style={{ display: 'inline-block', width: '0.3rem' }}></span>
+              <span className="loader-letter" style={{ display: 'inline-block', opacity: 0, animation: 'loader-letter-anim 4s infinite linear', animationDelay: '0.626s' }}>U</span>
+              <span className="loader-letter" style={{ display: 'inline-block', opacity: 0, animation: 'loader-letter-anim 4s infinite linear', animationDelay: '0.731s' }}>s</span>
+            </span>
+          </Link>
         </div>
-      </section>
-
+      
       <section className="banner-paragraph reveal no-reveal" ref={addToRefs}>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -214,5 +245,6 @@ export default function Home() {
         </div>
       </section>
     </div>
+    </>
   );
 }
