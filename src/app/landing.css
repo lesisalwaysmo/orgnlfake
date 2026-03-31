@@ -473,7 +473,18 @@
     }
 
     .hero-title {
-        font-size: 3rem;
+        font-size: 2.2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 0.8rem;
+        letter-spacing: 3px;
+        margin-bottom: 20px;
+    }
+
+    .join-btn {
+        scale: 0.85;
+        height: 50px;
     }
 
     #about {
