@@ -50,7 +50,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
             const linkRecord = await db.getTokenRecord(accessCookie.value);
             if (
                 linkRecord && 
-                linkRecord.creatorId === decodedUsername &&
+                linkRecord.creatorUsername === decodedUsername &&
                 linkRecord.category === decodedCategory && 
                 Date.now() < linkRecord.expiresAt
             ) {
@@ -62,11 +62,11 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
             const linkRecord = await db.getTokenRecord(urlToken);
             if (
                 linkRecord && 
-                linkRecord.creatorId === decodedUsername && 
+                linkRecord.creatorUsername === decodedUsername && 
                 linkRecord.category === decodedCategory && 
                 Date.now() < linkRecord.expiresAt
             ) {
-                if (!linkRecord.used) {
+                if (linkRecord.viewCount < 2) {
                     await db.markTokenAsUsed(urlToken);
                     // Drop the secure creator-specific cookie
                     cookieStore.set({

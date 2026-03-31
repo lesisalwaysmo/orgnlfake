@@ -34,25 +34,36 @@ export function MainNav() {
                         </span>
                     </Link>
 
-                    {/* Desktop Navigation - Top Right Aligned */}
-                    <div className="hidden lg:flex items-center gap-1">
-                        {navItems.map((item) => (
-                            <Link
-                                key={item.href}
-                                href={item.href}
-                                className={cn(
-                                    "relative px-4 py-2 text-sm font-medium transition-all duration-200",
-                                    pathname === item.href
-                                        ? "text-white"
-                                        : "text-white/50 hover:text-white hover:bg-white/5 rounded-lg"
-                                )}
-                            >
-                                {item.label}
-                                {pathname === item.href && (
-                                    <div className="absolute bottom-0 left-4 right-4 h-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full" />
-                                )}
+                    {/* Desktop Navigation & Auth */}
+                    <div className="hidden lg:flex items-center gap-6">
+                        <div className="flex items-center gap-1">
+                            {navItems.map((item) => (
+                                <Link
+                                    key={item.href}
+                                    href={item.href}
+                                    className={cn(
+                                        "relative px-4 py-2 text-sm font-medium transition-all duration-200",
+                                        pathname === item.href
+                                            ? "text-white"
+                                            : "text-white/50 hover:text-white hover:bg-white/5 rounded-lg"
+                                    )}
+                                >
+                                    {item.label}
+                                    {pathname === item.href && (
+                                        <div className="absolute bottom-0 left-4 right-4 h-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full" />
+                                    )}
+                                </Link>
+                            ))}
+                        </div>
+                        
+                        <div className="flex items-center gap-3 pl-6 border-l border-white/10">
+                            <Link href="/login" className="text-sm font-medium text-white/70 hover:text-white transition-colors">
+                                Sign In
                             </Link>
-                        ))}
+                            <Link href="/join" className="px-4 py-2 text-sm font-medium text-black bg-white hover:bg-white/90 rounded-full transition-colors">
+                                Sign Up
+                            </Link>
+                        </div>
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -67,22 +78,35 @@ export function MainNav() {
                 {/* Mobile Navigation */}
                 {mobileMenuOpen && (
                     <div className="lg:hidden py-6 border-t border-white/5 animate-in fade-in slide-in-from-top-4 duration-300">
-                        <div className="flex flex-col gap-2">
-                            {navItems.map((item) => (
-                                <Link
-                                    key={item.href}
-                                    href={item.href}
-                                    onClick={() => setMobileMenuOpen(false)}
-                                    className={cn(
-                                        "px-4 py-4 rounded-xl text-base font-medium transition-all",
-                                        pathname === item.href
-                                            ? "bg-white/10 text-white border border-white/10"
-                                            : "text-white/60 hover:text-white hover:bg-white/5"
-                                    )}
-                                >
-                                    {item.label}
+                        <div className="flex flex-col gap-4">
+                            {/* Mobile Auth */}
+                            <div className="flex items-center gap-3 pb-4 border-b border-white/5">
+                                <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="flex-1 py-3 text-center rounded-xl font-medium border border-white/10 text-white hover:bg-white/5 transition-colors">
+                                    Sign In
                                 </Link>
-                            ))}
+                                <Link href="/join" onClick={() => setMobileMenuOpen(false)} className="flex-1 py-3 text-center rounded-xl font-medium text-black bg-white hover:bg-white/90 transition-colors">
+                                    Sign Up
+                                </Link>
+                            </div>
+                            
+                            {/* Mobile Links */}
+                            <div className="flex flex-col gap-2">
+                                {navItems.map((item) => (
+                                    <Link
+                                        key={item.href}
+                                        href={item.href}
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className={cn(
+                                            "px-4 py-3 rounded-xl text-base font-medium transition-all",
+                                            pathname === item.href
+                                                ? "bg-white/10 text-white border border-white/10"
+                                                : "text-white/60 hover:text-white hover:bg-white/5"
+                                        )}
+                                    >
+                                        {item.label}
+                                    </Link>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 )}

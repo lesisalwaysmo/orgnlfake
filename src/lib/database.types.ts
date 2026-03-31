@@ -120,6 +120,58 @@ export interface ConnectedAccountUpdate {
     last_synced_at?: string;
 }
 
+// Access Request types (Lead Capture)
+export type AccessRequestStatus = 'PENDING' | 'APPROVED' | 'EXPIRED';
+
+export interface AccessRequest {
+    id: string;
+    client_name: string;
+    client_email: string;
+    client_link: string;
+    category: string;
+    creator_username: string;
+    status: AccessRequestStatus;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface AccessRequestInsert {
+    client_name: string;
+    client_email: string;
+    client_link: string;
+    category: string;
+    creator_username: string;
+    status?: AccessRequestStatus;
+}
+
+export interface AccessRequestUpdate {
+    status?: AccessRequestStatus;
+}
+
+// Access Token types (Fort Knox Security)
+export interface AccessToken {
+    id: string;
+    token: string;
+    request_id: string;
+    view_count: number;
+    device_id: string | null;
+    expires_at: string;
+    created_at: string;
+}
+
+export interface AccessTokenInsert {
+    token: string;
+    request_id: string;
+    view_count?: number;
+    device_id?: string;
+    expires_at: string;
+}
+
+export interface AccessTokenUpdate {
+    view_count?: number;
+    device_id?: string;
+}
+
 // Database schema type for Supabase client
 export interface Database {
     public: {
@@ -138,6 +190,16 @@ export interface Database {
                 Row: Admin;
                 Insert: AdminInsert;
                 Update: never;
+            };
+            access_requests: {
+                Row: AccessRequest;
+                Insert: AccessRequestInsert;
+                Update: AccessRequestUpdate;
+            };
+            access_tokens: {
+                Row: AccessToken;
+                Insert: AccessTokenInsert;
+                Update: AccessTokenUpdate;
             };
         };
         Functions: {
